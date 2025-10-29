@@ -27,6 +27,12 @@ collections:
           - { label: "Hero Description", name: "hero_description", widget: "text" }
           - { label: "Hero CTA Text", name: "hero_cta_text", widget: "string" }
           - { label: "Hero CTA Link", name: "hero_cta_link", widget: "string" }
+          - label: "Hero Background Image"
+            name: "hero_background_image"
+            widget: "image"
+            choose_url: true
+            hint: |
+              Landscape image. Recommended 1920×1080 (min 1600×900). Formats: WebP/JPG/PNG. Keep under ~1 MB. High contrast behind text works best.
           - { label: "Contact Email (for form)", name: "contact_email", widget: "string" }
           - label: "Social Links"
             name: "social"

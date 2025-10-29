@@ -172,6 +172,7 @@ async function loadSiteSettings() {
         const heroSubtitle = document.getElementById('hero-subtitle');
         const heroDescription = document.getElementById('hero-description');
         const heroCta = document.getElementById('hero-cta');
+        const heroSection = document.getElementById('home');
         const socialGithub = document.getElementById('social-github');
         const socialLinkedin = document.getElementById('social-linkedin');
         const socialTwitter = document.getElementById('social-twitter');
@@ -186,6 +187,11 @@ async function loadSiteSettings() {
         if (heroDescription && settings.hero_description) heroDescription.textContent = settings.hero_description;
         if (heroCta && settings.hero_cta_text) heroCta.textContent = settings.hero_cta_text;
         if (heroCta && settings.hero_cta_link) heroCta.setAttribute('href', settings.hero_cta_link);
+
+        // Apply hero background image if provided
+        if (heroSection && settings.hero_background_image) {
+            heroSection.style.background = `url('${settings.hero_background_image}') center/cover no-repeat`;
+        }
 
         if (socialGithub && settings.social && settings.social.github) socialGithub.href = settings.social.github;
         if (socialLinkedin && settings.social && settings.social.linkedin) socialLinkedin.href = settings.social.linkedin;
