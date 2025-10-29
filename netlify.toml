@@ -1,6 +1,13 @@
 [build]
   publish = "."
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[build.environment]
+  NODE_VERSION = "18"
+
 # Allow the CMS app to be served at /admin/
 [[redirects]]
   from = "/admin"
