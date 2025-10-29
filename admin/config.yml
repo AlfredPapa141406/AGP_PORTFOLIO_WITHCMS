@@ -40,7 +40,8 @@ collections:
             fields:
               - { label: "GitHub", name: "github", widget: "string" }
               - { label: "LinkedIn", name: "linkedin", widget: "string" }
-              - { label: "Twitter", name: "twitter", widget: "string" }
+              - { label: "Facebook", name: "facebook", widget: "string" }
+              - { label: "Instagram", name: "instagram", widget: "string" }
               - { label: "Email", name: "email", widget: "string" }
           - { label: "Footer Name", name: "footer_name", widget: "string" }
           - { label: "Footer Year", name: "footer_year", widget: "number" }

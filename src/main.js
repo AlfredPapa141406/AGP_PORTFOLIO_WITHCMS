@@ -175,7 +175,8 @@ async function loadSiteSettings() {
         const heroSection = document.getElementById('home');
         const socialGithub = document.getElementById('social-github');
         const socialLinkedin = document.getElementById('social-linkedin');
-        const socialTwitter = document.getElementById('social-twitter');
+        const socialFacebook = document.getElementById('social-facebook');
+        const socialInstagram = document.getElementById('social-instagram');
         const socialEmail = document.getElementById('social-email');
         const footerName = document.getElementById('footer-name');
         const footerYear = document.getElementById('footer-year');
@@ -195,7 +196,8 @@ async function loadSiteSettings() {
 
         if (socialGithub && settings.social && settings.social.github) socialGithub.href = settings.social.github;
         if (socialLinkedin && settings.social && settings.social.linkedin) socialLinkedin.href = settings.social.linkedin;
-        if (socialTwitter && settings.social && settings.social.twitter) socialTwitter.href = settings.social.twitter;
+        if (socialFacebook && settings.social && settings.social.facebook) socialFacebook.href = settings.social.facebook;
+        if (socialInstagram && settings.social && settings.social.instagram) socialInstagram.href = settings.social.instagram;
         if (socialEmail && settings.social && settings.social.email) socialEmail.href = `mailto:${settings.social.email}`;
 
         if (footerName && settings.footer_name) footerName.textContent = settings.footer_name;
