@@ -7,9 +7,21 @@ exports.handler = async (event) => {
     const payload = body.payload || body;
     const data = payload.data || {};
 
-    const name = (data.name || '').toString();
-    const email = (data.email || '').toString();
-    const message = (data.message || '').toString();
+    // Helper to read a field from multiple possible keys (case-insensitive)
+    const getField = (obj, variants) => {
+      if (!obj) return '';
+      const lowerMap = Object.keys(obj).reduce((acc, k) => { acc[k.toLowerCase()] = obj[k]; return acc; }, {});
+      for (const key of variants) {
+        const v = lowerMap[key.toLowerCase()];
+        if (v !== undefined && v !== null && String(v).trim() !== '') return String(v);
+      }
+      return '';
+    };
+
+    // Try common keys and fall back to payload/body if needed
+    const name = getField(data, ['name', 'full_name', 'yourname']) || getField(payload, ['name']);
+    const email = getField(data, ['email', 'your_email']) || getField(payload, ['email']);
+    const message = getField(data, ['message', 'messages', 'body', 'content']) || getField(payload, ['message', 'body']);
 
     const githubToken = process.env.GITHUB_TOKEN;
     const repoOwner = process.env.GITHUB_REPO_OWNER || 'AlfredPapa141406';
@@ -25,7 +37,7 @@ exports.handler = async (event) => {
     const safeName = name.replace(/[^a-z0-9\-\_ ]/gi, '').trim().replace(/\s+/g, '-').toLowerCase() || 'anonymous';
     const filename = `content/submissions/${timestamp}-${safeName}.md`;
 
-    const md = `---\nname: "${name.replace(/"/g, '\\"')}"\nemail: "${email.replace(/"/g, '\\"')}"\ndate: "${new Date().toISOString()}"\n---\n\n${message.replace(/---/g, '\\---')}\n`;
+    const md = `---\nname: "${name.replace(/"/g, '\\"')}"\nemail: "${email.replace(/"/g, '\\"')}"\ndate: "${new Date().toISOString()}"\nform: "${(payload.form_name || 'contact').toString()}"\n---\n\n${(message || '').replace(/---/g, '\\---')}\n\n<!-- raw payload for debugging -->\n\n${JSON.stringify({ data, payload }, null, 2)}\n`;
 
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filename}`;
 
