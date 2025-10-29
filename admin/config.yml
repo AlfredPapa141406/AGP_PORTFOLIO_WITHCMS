@@ -1,0 +1,70 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+site_url: "/"
+logo_url: "/favicon.ico"
+locale: en
+
+collections:
+  - name: "settings"
+    label: "Site Settings"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - file: "content/site.json"
+        label: "Global Settings"
+        name: "global_settings"
+        format: "json"
+        fields:
+          - { label: "Logo Text", name: "logo_text", widget: "string" }
+          - { label: "Hero Name", name: "hero_name", widget: "string" }
+          - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
+          - { label: "Hero Description", name: "hero_description", widget: "text" }
+          - { label: "Hero CTA Text", name: "hero_cta_text", widget: "string" }
+          - { label: "Hero CTA Link", name: "hero_cta_link", widget: "string" }
+          - { label: "Contact Email (for form)", name: "contact_email", widget: "string" }
+          - label: "Social Links"
+            name: "social"
+            widget: "object"
+            fields:
+              - { label: "GitHub", name: "github", widget: "string" }
+              - { label: "LinkedIn", name: "linkedin", widget: "string" }
+              - { label: "Twitter", name: "twitter", widget: "string" }
+              - { label: "Email", name: "email", widget: "string" }
+          - { label: "Footer Name", name: "footer_name", widget: "string" }
+          - { label: "Footer Year", name: "footer_year", widget: "number" }
+  - name: "about"
+    label: "About"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - file: "content/about.md"
+        label: "About Page"
+        name: "about_page"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+          - { label: "Skills (comma separated)", name: "skills", widget: "string" }
+          - { label: "Body", name: "body", widget: "text" }
+
+  - name: "projects"
+    label: "Projects"
+    label_singular: "Project"
+    folder: "content/projects"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Link", name: "link", widget: "string" }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Description", name: "body", widget: "text", hint: "Shown under the title" }
+
