@@ -48,7 +48,12 @@ collections:
         label: "About Page"
         name: "about_page"
         fields:
-          - { label: "Profile Image", name: "image", widget: "image", hint: "Recommended square image" }
+          - label: "Profile Image"
+            name: "image"
+            widget: "image"
+            choose_url: true
+            hint: |
+              Use a square image. Recommended 512×512 (min 400×400). Formats: WebP/JPG/PNG. Keep under ~500 KB. Center the subject with some padding; transparent background is okay.
           - { label: "Heading", name: "heading", widget: "string" }
           - { label: "Skills (comma separated)", name: "skills", widget: "string" }
           - { label: "Body", name: "body", widget: "text" }
