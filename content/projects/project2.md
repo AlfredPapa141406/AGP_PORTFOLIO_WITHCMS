@@ -1,10 +1,11 @@
 ---
-title: E-commerce Product Page
-image: https://images.unsplash.com/photo-1515165562835-c3b8c8f6a94f?w=1200&h=800&fit=crop
-link: https://example.com/product-page
+title: Cozy Stayins - Baguio
+image: /assets/uploads/cozystayins.png
+link: https://cozystayinsbaguio.netlify.app/
 featured: false
 ---
 
-Responsive product page with image gallery, sticky cart summary, and accessibility-first design.
-Built with modular CSS and progressive enhancement.
+Welcome to Cozy Stayins, your trusted partner for comfortable and affordable transient house rentals in the beautiful city of Baguio. We specialize in providing clean, safe, and fully-furnished accommodations for both short-term and long-term stays.
+
+Located in the heart of Baguio City, our property offers easy access to major attractions, schools, and business districts while providing a peaceful retreat from the hustle and bustle of city life.
 
