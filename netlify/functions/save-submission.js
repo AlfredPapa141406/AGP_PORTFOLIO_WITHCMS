@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 exports.handler = async (event, context) => {
   // This function will be triggered by Netlify Forms webhook
   if (event.httpMethod !== 'POST') {

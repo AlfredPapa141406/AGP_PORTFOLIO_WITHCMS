@@ -1,8 +1,6 @@
 // Runs automatically on each Netlify Forms submission (event: submission-created)
 // Saves a markdown copy of the submission into content/submissions via GitHub API
 
-const fetch = require('node-fetch');
-
 exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body || '{}');
