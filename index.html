@@ -91,9 +91,9 @@
 
             <div class="contact-content">
                 <div class="contact-form-wrapper fade-in">
-                    <form action="https://formsubmit.co/alfredpapa1422@gmail.com" method="POST" class="contact-form">
+                    <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="_honey" class="contact-form">
+                        <input type="hidden" name="form-name" value="contact">
                         <input type="hidden" name="_next" value="./?submitted=true#contact">
-                        <input type="hidden" name="_captcha" value="false">
                         <p class="hidden">
                             <label>Don't fill this out if you're human: <input type="text" name="_honey"></label>
                         </p>
@@ -111,6 +111,9 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Send Message</button>
                     </form>
+                    <div id="form-success" style="display: none; margin-top: 1rem; padding: 1rem; background: #d4edda; color: #155724; border-radius: 4px;">
+                        <strong>Success!</strong> Your message has been sent. I'll get back to you soon!
+                    </div>
                 </div>
 
                 <div class="contact-info fade-in">

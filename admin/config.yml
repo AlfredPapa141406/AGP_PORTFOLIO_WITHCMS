@@ -79,4 +79,16 @@ collections:
       - { label: "Link", name: "link", widget: "string" }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
       - { label: "Description", name: "body", widget: "text", hint: "Shown under the title" }
+  - name: "submissions"
+    label: "Form Submissions"
+    label_singular: "Submission"
+    folder: "content/submissions"
+    create: false
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Email", name: "email", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Message", name: "body", widget: "text" }
 

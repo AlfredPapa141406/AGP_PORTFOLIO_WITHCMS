@@ -7,4 +7,15 @@
   to = "/admin/"
   status = 301
 
+# Configure form notifications
+[[headers]]
+  for = "/contact"
+  [headers.values]
+    X-Frame-Options = "DENY"
+
+# Netlify Forms configuration - emails are sent automatically
+# To configure email notifications:
+# 1. Go to Netlify Dashboard > Forms > Notification settings
+# 2. Add your email address to receive submissions
+
 

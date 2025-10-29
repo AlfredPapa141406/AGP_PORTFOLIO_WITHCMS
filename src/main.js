@@ -200,20 +200,32 @@ async function loadSiteSettings() {
 
         if (footerName && settings.footer_name) footerName.textContent = settings.footer_name;
         if (footerYear && settings.footer_year) footerYear.textContent = `${settings.footer_year}`;
-
-        if (contactForm && settings.contact_email) {
-            contactForm.action = `https://formsubmit.co/${settings.contact_email}`;
-        }
     } catch (error) {
         console.error('Error loading site settings:', error);
     }
 }
 
-// Initialize
+// Handle form submission success
 document.addEventListener('DOMContentLoaded', () => {
     loadProjects();
     loadAboutContent();
     loadSiteSettings();
+    
+    // Check for form submission success
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('submitted') === 'true') {
+        const formSuccess = document.getElementById('form-success');
+        if (formSuccess) {
+            formSuccess.style.display = 'block';
+            // Scroll to form
+            setTimeout(() => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+    }
 });
 
 // Smooth scroll for all anchor links
