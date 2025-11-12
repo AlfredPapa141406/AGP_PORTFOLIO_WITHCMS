@@ -6,13 +6,13 @@
         {
           "title": "Nomnoms",
           "description": "Cozy cookie brand website focused on storytelling, product highlights, and warm visual design.",
-          "image": "https://nomnomsmkt.netlify.app/assets/uploads/nomnomsphoto.png",
+          "image": "/assets/uploads/screencapture-nomnomsmkt-netlify-app-2025-11-12-23_29_49.png",
           "link": "https://nomnomsmkt.netlify.app/"
         },
         {
           "title": "Cozy Stayins - Baguio",
           "description": "Transient house booking site built for clarity, trust, and easy access to essential property details.",
-          "image": "https://cozystayinsbaguio.netlify.app/assets/uploads/cozystayins.png",
+          "image": "/assets/uploads/screenshot-2025-11-12-233708.png",
           "link": "https://cozystayinsbaguio.netlify.app/"
         }
       ]
