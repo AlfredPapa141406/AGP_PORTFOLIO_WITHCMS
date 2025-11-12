@@ -42,7 +42,13 @@ collections:
               - { label: "LinkedIn URL", name: "linkedin", widget: "string" }
               - { label: "Facebook URL", name: "facebook", widget: "string" }
               - { label: "Instagram URL", name: "instagram", widget: "string" }
-              - { label: "CV Download URL", name: "email", widget: "string" }
+              - label: "CV File"
+                name: "email"
+                widget: "file"
+                media_library:
+                  allow_multiple: false
+                default: "/assets/alfred-papa-portfolio.pdf"
+                hint: "Upload a PDF of your CV. Leave as-is if you want to keep the current file."
           - { label: "CV Link Label", name: "social_email_label", widget: "string", default: "Curriculum Vitae" }
           - { label: "Footer Name", name: "footer_name", widget: "string" }
           - { label: "Footer Year", name: "footer_year", widget: "number" }
