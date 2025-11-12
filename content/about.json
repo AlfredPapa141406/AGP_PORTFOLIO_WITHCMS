@@ -1,11 +1,11 @@
 {
   "image": "/assets/uploads/alfredprofile.png",
-  "heading": "Hi, I'm Alfred — Frontend Developer",
-  "body": "I build fast, accessible, and visually polished web experiences. I enjoy turning ideas into products, focusing on clear UX and scalable front-end architecture.",
+  "heading": "Hi, I’m Alfred - Business Graduate & Web Developer in Progress",
+  "body": "I’m a BSBA graduate expanding my skill set into front-end web development. My business foundation gives me a unique perspective on user needs, teamwork, and problem-solving, while my technical learning in HTML, CSS, JavaScript, and UI/UX design helps me create clean and effective digital experiences. I’m passionate about combining design, technology, and strategy to build meaningful web solutions.",
   "business_skills": [
-    "Strategic Planning",
-    "Operations Management",
-    "Financial Analysis",
+    "Management Skills",
+    "Decision Making Skills",
+    "Negotiation Skills",
     "Team Leadership"
   ],
   "web_skills": [
@@ -21,4 +21,3 @@
     "Spreadsheet Management"
   ]
 }
-
