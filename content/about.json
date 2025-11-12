@@ -1,0 +1,24 @@
+{
+  "image": "/assets/uploads/alfredprofile.png",
+  "heading": "Hi, I'm Alfred — Frontend Developer",
+  "body": "I build fast, accessible, and visually polished web experiences. I enjoy turning ideas into products, focusing on clear UX and scalable front-end architecture.",
+  "business_skills": [
+    "Strategic Planning",
+    "Operations Management",
+    "Financial Analysis",
+    "Team Leadership"
+  ],
+  "web_skills": [
+    "HTML & CSS",
+    "JavaScript",
+    "Responsive Design",
+    "UI/UX Principles"
+  ],
+  "tools_skills": [
+    "Canva",
+    "Microsoft Office Suite",
+    "Google Workspace Tools",
+    "Spreadsheet Management"
+  ]
+}
+

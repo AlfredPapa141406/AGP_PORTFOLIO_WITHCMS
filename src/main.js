@@ -73,86 +73,197 @@ function parseMarkdown(text) {
     return { frontmatter, content };
 }
 
+const defaultProjectCategories = [
+    {
+        title: 'Web Design Projects',
+        projects: [
+            {
+                title: 'Nomnoms',
+                description: 'Cozy cookie brand website focused on storytelling, product highlights, and warm visual design.',
+                image: 'https://nomnomsmkt.netlify.app/assets/uploads/nomnomsphoto.png',
+                link: 'https://nomnomsmkt.netlify.app/'
+            },
+            {
+                title: 'Cozy Stayins - Baguio',
+                description: 'Transient house booking site built for clarity, trust, and easy access to essential property details.',
+                image: 'https://cozystayinsbaguio.netlify.app/assets/uploads/cozystayins.png',
+                link: 'https://cozystayinsbaguio.netlify.app/'
+            }
+        ]
+    },
+    {
+        title: 'Canva Design Edits',
+        projects: [
+            {
+                title: 'Brand Social Pack',
+                description: 'Bold social media templates crafted for consistent branding across Facebook and Instagram.',
+                image: 'https://images.unsplash.com/photo-1523475472560-d2df97ec485c?w=600&h=400&fit=crop',
+                link: '#'
+            },
+            {
+                title: 'Pitch Deck Redesign',
+                description: 'Professional presentation refresh aligned with brand colors, typography, and visual hierarchy.',
+                image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop',
+                link: '#'
+            }
+        ]
+    }
+];
+
+function renderProjectCategories(projectsGrid, categories) {
+    projectsGrid.innerHTML = '';
+
+    if (!Array.isArray(categories) || categories.length === 0) {
+        projectsGrid.innerHTML = `<p class="project-empty">Projects coming soon. Check back later!</p>`;
+        return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    const fallbackImage = 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop';
+
+    for (const category of categories) {
+        if (!category || !Array.isArray(category.projects) || category.projects.length === 0) continue;
+
+        const categoryEl = document.createElement('div');
+        categoryEl.className = 'project-category fade-in';
+
+        const heading = document.createElement('h3');
+        heading.className = 'project-category-title';
+        heading.textContent = category.title || 'Projects';
+        categoryEl.appendChild(heading);
+
+        for (const project of category.projects) {
+            const card = document.createElement('div');
+            card.className = 'project-card fade-in';
+
+            const image = document.createElement('img');
+            image.className = 'project-image';
+            image.src = project?.image || fallbackImage;
+            image.alt = project?.title ? `${project.title}` : 'Project preview';
+            card.appendChild(image);
+
+            const content = document.createElement('div');
+            content.className = 'project-content';
+
+            const title = document.createElement('h3');
+            title.className = 'project-title';
+            title.textContent = project?.title || 'Untitled Project';
+
+            const description = document.createElement('p');
+            description.className = 'project-description';
+            description.textContent = project?.description || '';
+
+            const linkValue = project?.link || '#';
+            const link = document.createElement('a');
+            link.className = 'project-link';
+            link.href = linkValue;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = 'View Project →';
+            if (!linkValue || linkValue === '#') {
+                link.setAttribute('aria-disabled', 'true');
+                link.classList.add('project-link--disabled');
+            }
+
+            content.appendChild(title);
+            if (description.textContent.trim().length > 0) {
+                content.appendChild(description);
+            }
+            content.appendChild(link);
+
+            card.appendChild(content);
+            categoryEl.appendChild(card);
+        }
+
+        fragment.appendChild(categoryEl);
+    }
+
+    if (!fragment.childNodes.length) {
+        projectsGrid.innerHTML = `<p class="project-empty">Projects coming soon. Check back later!</p>`;
+        return;
+    }
+
+    projectsGrid.appendChild(fragment);
+
+    const newFadeElements = projectsGrid.querySelectorAll('.fade-in, .project-card');
+    for (const el of newFadeElements) {
+        observer.observe(el);
+    }
+}
+
 // Load projects
 async function loadProjects() {
     const projectsGrid = document.getElementById('projects-grid');
     if (!projectsGrid) return;
 
+    let categories = [];
+
     try {
-        const projectFiles = ['project1.md', 'project2.md', 'project3.md'];
-        const projects = [];
-
-        for (const file of projectFiles) {
-            try {
-                const response = await fetch(`./content/projects/${file}`);
-                if (response.ok) {
-                    const text = await response.text();
-                    const { frontmatter, content } = parseMarkdown(text);
-
-                    projects.push({
-                        title: frontmatter.title || 'Untitled Project',
-                        description: (content || '').trim() || frontmatter.description || '',
-                        image: frontmatter.image || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop',
-                        link: frontmatter.link || '#',
-                        featured: frontmatter.featured === 'true'
-                    });
-                }
-            } catch (error) {
-                console.error(`Error loading ${file}:`, error);
+        const response = await fetch('./content/projects.json', { cache: 'no-store' });
+        if (response.ok) {
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                categories = data;
+            } else if (Array.isArray(data?.categories)) {
+                categories = data.categories;
             }
         }
-
-        projectsGrid.innerHTML = projects.map(project => `
-            <div class="project-card fade-in">
-                <img src="${project.image}" alt="${project.title}" class="project-image">
-                <div class="project-content">
-                    <h3 class="project-title">${project.title}</h3>
-                    <p class="project-description">${project.description}</p>
-                    <a href="${project.link}" target="_blank" rel="noopener" class="project-link">
-                        View Project →
-                    </a>
-                </div>
-            </div>
-        `).join('');
-
-        const newFadeElements = projectsGrid.querySelectorAll('.fade-in');
-        for (const el of newFadeElements) {
-            observer.observe(el);
-        }
-
     } catch (error) {
-        console.error('Error loading projects:', error);
+        console.warn('Falling back to default project data.', error);
     }
+
+    if (!Array.isArray(categories) || categories.length === 0) {
+        categories = defaultProjectCategories;
+    }
+
+    renderProjectCategories(projectsGrid, categories);
 }
 
 // Load about content
 async function loadAboutContent() {
     try {
-        const response = await fetch('./content/about.md');
+        const response = await fetch('./content/about.json', { cache: 'no-store' });
         if (response.ok) {
-            const text = await response.text();
-            const { frontmatter, content } = parseMarkdown(text);
+            const aboutData = await response.json();
 
             const aboutHeading = document.getElementById('about-heading');
             const aboutDescription = document.getElementById('about-description');
-            const skillsList = document.getElementById('skills-list');
+            const webSkillsList = document.getElementById('web-skills-list');
+            const businessSkillsList = document.getElementById('business-skills-list');
+            const toolsSkillsList = document.getElementById('tools-skills-list');
             const aboutImage = document.getElementById('about-image');
 
-            if (aboutHeading && frontmatter.heading) {
-                aboutHeading.textContent = frontmatter.heading;
+            if (aboutHeading && aboutData.heading) {
+                aboutHeading.textContent = aboutData.heading;
             }
 
-            if (aboutDescription && content) {
-                aboutDescription.textContent = content.trim();
+            if (aboutDescription && aboutData.body) {
+                aboutDescription.textContent = aboutData.body.trim();
             }
 
-            if (skillsList && frontmatter.skills) {
-                const skills = frontmatter.skills.split(',').map((s) => s.trim());
-                skillsList.innerHTML = skills.map((skill) => `<li>${skill}</li>`).join('');
+            if (businessSkillsList && Array.isArray(aboutData.business_skills)) {
+                businessSkillsList.innerHTML = aboutData.business_skills
+                    .filter((skill) => typeof skill === 'string' && skill.trim().length > 0)
+                    .map((skill) => `<li>${skill.trim()}</li>`)
+                    .join('');
             }
 
-            if (aboutImage && frontmatter.image) {
-                aboutImage.src = frontmatter.image;
+            if (webSkillsList && Array.isArray(aboutData.web_skills)) {
+                webSkillsList.innerHTML = aboutData.web_skills
+                    .filter((skill) => typeof skill === 'string' && skill.trim().length > 0)
+                    .map((skill) => `<li>${skill.trim()}</li>`)
+                    .join('');
+            }
+
+            if (toolsSkillsList && Array.isArray(aboutData.tools_skills)) {
+                toolsSkillsList.innerHTML = aboutData.tools_skills
+                    .filter((skill) => typeof skill === 'string' && skill.trim().length > 0)
+                    .map((skill) => `<li>${skill.trim()}</li>`)
+                    .join('');
+            }
+
+            if (aboutImage && aboutData.image) {
+                aboutImage.src = aboutData.image;
             }
         }
     } catch (error) {
@@ -198,7 +309,32 @@ async function loadSiteSettings() {
         if (socialLinkedin && settings.social && settings.social.linkedin) socialLinkedin.href = settings.social.linkedin;
         if (socialFacebook && settings.social && settings.social.facebook) socialFacebook.href = settings.social.facebook;
         if (socialInstagram && settings.social && settings.social.instagram) socialInstagram.href = settings.social.instagram;
-        if (socialEmail && settings.social && settings.social.email) socialEmail.href = `mailto:${settings.social.email}`;
+        if (socialEmail && settings.social && settings.social.email) {
+            const socialEmailValue = settings.social.email.trim();
+            if (socialEmailValue.startsWith('mailto:')) {
+                socialEmail.href = socialEmailValue;
+                socialEmail.removeAttribute('download');
+            } else if (socialEmailValue.includes('@') && !socialEmailValue.includes('/') && !socialEmailValue.includes('://')) {
+                socialEmail.href = `mailto:${socialEmailValue}`;
+                socialEmail.removeAttribute('download');
+            } else {
+                socialEmail.href = socialEmailValue;
+                if (!socialEmail.hasAttribute('download')) {
+                    socialEmail.setAttribute('download', '');
+                }
+            }
+
+            const socialEmailLabel = socialEmail.querySelector('span');
+            if (socialEmailLabel) {
+                if (settings.social_email_label && settings.social_email_label.trim().length > 0) {
+                    socialEmailLabel.textContent = settings.social_email_label.trim();
+                } else if (socialEmailValue.startsWith('mailto:') || socialEmailValue.includes('@')) {
+                    socialEmailLabel.textContent = 'Email';
+                } else {
+                    socialEmailLabel.textContent = 'Download CV';
+                }
+            }
+        }
 
         if (footerName && settings.footer_name) footerName.textContent = settings.footer_name;
         if (footerYear && settings.footer_year) footerYear.textContent = `${settings.footer_year}`;

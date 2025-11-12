@@ -1,0 +1,39 @@
+{
+  "categories": [
+    {
+      "title": "Web Design Projects",
+      "projects": [
+        {
+          "title": "Nomnoms",
+          "description": "Cozy cookie brand website focused on storytelling, product highlights, and warm visual design.",
+          "image": "https://nomnomsmkt.netlify.app/assets/uploads/nomnomsphoto.png",
+          "link": "https://nomnomsmkt.netlify.app/"
+        },
+        {
+          "title": "Cozy Stayins - Baguio",
+          "description": "Transient house booking site built for clarity, trust, and easy access to essential property details.",
+          "image": "https://cozystayinsbaguio.netlify.app/assets/uploads/cozystayins.png",
+          "link": "https://cozystayinsbaguio.netlify.app/"
+        }
+      ]
+    },
+    {
+      "title": "Canva Design Edits",
+      "projects": [
+        {
+          "title": "Brand Social Pack",
+          "description": "Bold social media templates crafted for consistent branding across Facebook and Instagram.",
+          "image": "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?w=600&h=400&fit=crop",
+          "link": "#"
+        },
+        {
+          "title": "Pitch Deck Redesign",
+          "description": "Professional presentation refresh aligned with brand colors, typography, and visual hierarchy.",
+          "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop",
+          "link": "#"
+        }
+      ]
+    }
+  ]
+}
+

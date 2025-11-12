@@ -1,19 +1,21 @@
 {
-  "footer_year": 2025,
-  "hero_cta_text": "View My Work",
   "logo_text": "AGPDEV",
-  "social": {
-    "github": "https://github.com/alfredpapa141406",
-    "linkedin": "https://linkedin.com/in/alfredpapa14",
-    "facebook": "https://www.facebook.com/share/17x8acddic/",
-    "instagram": "https://www.instagram.com/_agpapa?igsh=MTI0aTJ4dWFjdnZ0eQ==",
-    "email": "alfredpapa141406@gmail.com"
-  },
+  "hero_name": "Alfred Papa",
+  "hero_subtitle": "Creative Developer & Designer",
+  "hero_description": "I craft beautiful digital experiences that make an impact",
+  "hero_cta_text": "View My Work",
   "hero_cta_link": "#portfolio",
   "hero_background_image": "/assets/uploads/bg2.jpg",
+  "contact_email": "alfredpapa1422@gmail.com",
+  "social": {
+    "github": "https://github.com/AlfredPapa141406",
+    "linkedin": "https://www.linkedin.com/in/alfredpapa14",
+    "facebook": "https://www.facebook.com/share/17x8acddic/",
+    "instagram": "https://www.instagram.com/_agpapa?igsh=MTI0aTJ4dWFjdnZ0eQ==",
+    "email": "/assets/alfred-papa-portfolio.pdf"
+  },
+  "social_email_label": "Curriculum Vitae",
   "footer_name": "alfredpapa",
-  "hero_name": "Alfred Papa",
-  "hero_description": "I craft beautiful digital experiences that make an impact",
-  "hero_subtitle": "Creative Developer & Designer",
-  "contact_email": "alfredpapa1422@gmail.com"
+  "footer_year": 2025
 }
+

@@ -10,7 +10,7 @@ logo_url: "/favicon.ico"
 locale: en
 
 collections:
-  - name: "settings"
+  - name: "site_settings"
     label: "Site Settings"
     delete: false
     editor:
@@ -32,64 +32,87 @@ collections:
             widget: "image"
             choose_url: true
             hint: |
-              Landscape image. Recommended 1920×1080 (min 1600×900). Formats: WebP/JPG/PNG. Keep under ~1 MB. High contrast behind text works best.
+              Landscape image. Recommended 1920×1080 (min 1600×900), ideally under 1MB.
           - { label: "Contact Email (for form)", name: "contact_email", widget: "string" }
           - label: "Social Links"
             name: "social"
             widget: "object"
             fields:
-              - { label: "GitHub", name: "github", widget: "string" }
-              - { label: "LinkedIn", name: "linkedin", widget: "string" }
-              - { label: "Facebook", name: "facebook", widget: "string" }
-              - { label: "Instagram", name: "instagram", widget: "string" }
-              - { label: "Email", name: "email", widget: "string" }
+              - { label: "GitHub URL", name: "github", widget: "string" }
+              - { label: "LinkedIn URL", name: "linkedin", widget: "string" }
+              - { label: "Facebook URL", name: "facebook", widget: "string" }
+              - { label: "Instagram URL", name: "instagram", widget: "string" }
+              - { label: "CV Download URL", name: "email", widget: "string" }
+          - { label: "CV Link Label", name: "social_email_label", widget: "string", default: "Curriculum Vitae" }
           - { label: "Footer Name", name: "footer_name", widget: "string" }
           - { label: "Footer Year", name: "footer_year", widget: "number" }
+
   - name: "about"
     label: "About"
     delete: false
     editor:
       preview: false
     files:
-      - file: "content/about.md"
-        label: "About Page"
+      - file: "content/about.json"
+        label: "About Content"
         name: "about_page"
+        format: "json"
         fields:
           - label: "Profile Image"
             name: "image"
             widget: "image"
             choose_url: true
-            hint: |
-              Use a square image. Recommended 512×512 (min 400×400). Formats: WebP/JPG/PNG. Keep under ~500 KB. Center the subject with some padding; transparent background is okay.
           - { label: "Heading", name: "heading", widget: "string" }
-          - { label: "Skills (comma separated)", name: "skills", widget: "string" }
           - { label: "Body", name: "body", widget: "text" }
+          - label: "Business Administration Skills"
+            name: "business_skills"
+            widget: "list"
+            default:
+              - Strategic Planning
+              - Operations Management
+              - Financial Analysis
+              - Team Leadership
+          - label: "Web Development Skills"
+            name: "web_skills"
+            widget: "list"
+            default:
+              - HTML & CSS
+              - JavaScript
+              - Responsive Design
+              - UI/UX Principles
+          - label: "Productivity & Design Tools"
+            name: "tools_skills"
+            widget: "list"
+            default:
+              - Canva
+              - Microsoft Office Suite
+              - Google Workspace Tools
+              - Spreadsheet Management
 
   - name: "projects"
     label: "Projects"
-    label_singular: "Project"
-    folder: "content/projects"
-    create: true
-    slug: "{{slug}}"
-    summary: "{{title}}"
-    extension: "md"
-    format: "frontmatter"
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Image", name: "image", widget: "image" }
-      - { label: "Link", name: "link", widget: "string" }
-      - { label: "Featured", name: "featured", widget: "boolean", default: false }
-      - { label: "Description", name: "body", widget: "text", hint: "Shown under the title" }
-  - name: "submissions"
-    label: "Form Submissions"
-    label_singular: "Submission"
-    folder: "content/submissions"
-    create: false
-    extension: "md"
-    format: "frontmatter"
-    fields:
-      - { label: "Name", name: "name", widget: "string" }
-      - { label: "Email", name: "email", widget: "string" }
-      - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Message", name: "body", widget: "text" }
+    delete: false
+    editor:
+      preview: false
+    files:
+      - file: "content/projects.json"
+        label: "Project Categories"
+        name: "project_categories"
+        format: "json"
+        fields:
+          - label: "Categories"
+            name: "categories"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Category Title", name: "title", widget: "string" }
+              - label: "Projects"
+                name: "projects"
+                widget: "list"
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "description", widget: "text" }
+                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Link", name: "link", widget: "string" }
 
