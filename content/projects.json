@@ -21,10 +21,10 @@
       "title": "Canva Design Edits",
       "projects": [
         {
-          "title": "Brand Social Pack",
-          "description": "Bold social media templates crafted for consistent branding across Facebook and Instagram.",
-          "image": "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?w=600&h=400&fit=crop",
-          "link": "#"
+          "title": "Flyer Design",
+          "description": "This travel flyer promotes a Hong Kong & Disneyland tour as a reward for meeting sales goals at Forticare Health Systems International. It outlines the qualification requirements for Health Specialists, Branch Managers, and Regional Managers in both the Regular and Operator Distribution Channels. The promotion runs from January to December 2024, with the travel period in April 2024. The flyer features vibrant visuals and details the cash brought-in requirements for eligibility.",
+          "image": "/assets/uploads/red-white-yellow-modern-travel-poster.png",
+          "link": "https://www.canva.com/design/DAFzXV-iQmg/qx3df9ggdA6H3X1HBe1DHA/edit"
         },
         {
           "title": "Pitch Deck Redesign",
@@ -36,4 +36,3 @@
     }
   ]
 }
-
