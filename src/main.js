@@ -270,17 +270,10 @@ function renderProjectCategories(projectsGrid, categories) {
     for (const category of categories) {
         if (!category || !Array.isArray(category.projects) || category.projects.length === 0) continue;
 
-        const categoryEl = document.createElement('div');
-        categoryEl.className = 'project-category fade-in';
-
-        const heading = document.createElement('h3');
-        heading.className = 'project-category-title';
-        heading.textContent = category.title || 'Projects';
-        categoryEl.appendChild(heading);
-
         for (const project of category.projects) {
             const card = document.createElement('div');
             card.className = 'project-card fade-in';
+            card.dataset.category = category.filterKey || '';
 
             const image = document.createElement('img');
             image.className = 'project-image';
@@ -318,10 +311,8 @@ function renderProjectCategories(projectsGrid, categories) {
             content.appendChild(link);
 
             card.appendChild(content);
-            categoryEl.appendChild(card);
+            fragment.appendChild(card);
         }
-
-        fragment.appendChild(categoryEl);
     }
 
     if (!fragment.childNodes.length) {
