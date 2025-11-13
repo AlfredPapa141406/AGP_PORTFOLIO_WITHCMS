@@ -48,6 +48,8 @@ for (const el of fadeElements) {
     observer.observe(el);
 }
 
+let projectCategoriesCache = [];
+
 // Parse markdown frontmatter and content
 function parseMarkdown(text) {
     const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
@@ -109,6 +111,150 @@ const defaultProjectCategories = [
         ]
     }
 ];
+
+function slugify(value, fallback = '') {
+    if (typeof value !== 'string') {
+        return fallback;
+    }
+    return value
+        .toLowerCase()
+        .trim()
+        .replace(/[\s_]+/g, '-')
+        .replace(/[^\w-]/g, '')
+        .replace(/--+/g, '-')
+        .replace(/^-+|-+$/g, '') || fallback;
+}
+
+function setupProjectFilters(filtersContainer, projectsGrid, categories) {
+    if (!filtersContainer || !projectsGrid) return;
+
+    filtersContainer.innerHTML = '';
+
+    if (!Array.isArray(categories) || categories.length <= 1) {
+        filtersContainer.style.display = 'none';
+        return;
+    }
+
+    filtersContainer.style.display = '';
+
+    const buttons = [];
+
+    const createButton = (label, filterKey) => {
+        const button = document.createElement('button');
+        button.className = 'filter-button';
+        button.type = 'button';
+        button.textContent = label;
+        button.dataset.filter = filterKey;
+        filtersContainer.appendChild(button);
+        buttons.push(button);
+        return button;
+    };
+
+    const setActiveButton = (filterKey) => {
+        for (const btn of buttons) {
+            if (btn.dataset.filter === filterKey) {
+                btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
+            } else {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-pressed', 'false');
+            }
+        }
+    };
+
+    const handleFilter = (filterKey) => {
+        const filtered =
+            filterKey === 'all'
+                ? categories
+                : categories.filter((category) => category.filterKey === filterKey);
+        renderProjectCategories(projectsGrid, filtered);
+        setActiveButton(filterKey);
+    };
+
+    createButton('All Projects', 'all');
+
+    for (const category of categories) {
+        const label = category?.title || 'Projects';
+        createButton(label, category.filterKey);
+    }
+
+    filtersContainer.addEventListener('click', (event) => {
+        const target = event.target;
+        if (target instanceof HTMLElement && target.dataset.filter) {
+            handleFilter(target.dataset.filter);
+        }
+    });
+
+    handleFilter('all');
+}
+
+function initHeroParallax() {
+    const heroSection = document.getElementById('home');
+    if (!heroSection) return;
+
+    const mediaQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+
+    const cleanup = {
+        attached: false,
+        attach(listener) {
+            if (this.attached) return;
+            window.addEventListener('scroll', listener, { passive: true });
+            window.addEventListener('resize', listener);
+            this.attached = true;
+        },
+        detach(listener) {
+            if (!this.attached) return;
+            window.removeEventListener('scroll', listener);
+            window.removeEventListener('resize', listener);
+            this.attached = false;
+        }
+    };
+
+    let frame = null;
+    const updateParallax = () => {
+        frame = null;
+        const rect = heroSection.getBoundingClientRect();
+        const offset = rect.top * -0.2;
+        heroSection.style.setProperty('--parallax-offset', `${offset}px`);
+    };
+
+    const requestUpdate = () => {
+        if (frame) return;
+        frame = requestAnimationFrame(updateParallax);
+    };
+
+    const enableParallax = () => {
+        updateParallax();
+        cleanup.attach(requestUpdate);
+    };
+
+    const disableParallax = () => {
+        cleanup.detach(requestUpdate);
+        heroSection.style.setProperty('--parallax-offset', '0px');
+    };
+
+    if (mediaQuery && mediaQuery.matches) {
+        disableParallax();
+    } else {
+        enableParallax();
+    }
+
+    if (mediaQuery) {
+        const mqListener = (event) => {
+            if (event.matches) {
+                disableParallax();
+            } else {
+                enableParallax();
+            }
+        };
+
+        if (typeof mediaQuery.addEventListener === 'function') {
+            mediaQuery.addEventListener('change', mqListener);
+        } else if (typeof mediaQuery.addListener === 'function') {
+            mediaQuery.addListener(mqListener);
+        }
+    }
+}
 
 function renderProjectCategories(projectsGrid, categories) {
     projectsGrid.innerHTML = '';
@@ -194,6 +340,7 @@ function renderProjectCategories(projectsGrid, categories) {
 // Load projects
 async function loadProjects() {
     const projectsGrid = document.getElementById('projects-grid');
+    const filtersContainer = document.getElementById('project-filters');
     if (!projectsGrid) return;
 
     let categories = [];
@@ -216,7 +363,23 @@ async function loadProjects() {
         categories = defaultProjectCategories;
     }
 
-    renderProjectCategories(projectsGrid, categories);
+    projectCategoriesCache = categories
+        .filter((category) => category && Array.isArray(category.projects) && category.projects.length > 0)
+        .map((category, index) => ({
+            ...category,
+            filterKey: category.filterKey || slugify(category.id || category.title, `category-${index}`)
+        }));
+
+    if (projectCategoriesCache.length === 0) {
+        renderProjectCategories(projectsGrid, categories);
+        return;
+    }
+
+    setupProjectFilters(filtersContainer, projectsGrid, projectCategoriesCache);
+
+    if (!filtersContainer || filtersContainer.style.display === 'none') {
+        renderProjectCategories(projectsGrid, projectCategoriesCache);
+    }
 }
 
 // Load about content
@@ -302,7 +465,7 @@ async function loadSiteSettings() {
 
         // Apply hero background image if provided
         if (heroSection && settings.hero_background_image) {
-            heroSection.style.background = `url('${settings.hero_background_image}') center/cover no-repeat`;
+            heroSection.style.setProperty('--hero-bg', `url('${settings.hero_background_image}')`);
         }
 
         if (socialGithub && settings.social && settings.social.github) socialGithub.href = settings.social.github;
@@ -348,6 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadProjects();
     loadAboutContent();
     loadSiteSettings();
+    initHeroParallax();
     
     // Check for form submission success
     const urlParams = new URLSearchParams(window.location.search);
